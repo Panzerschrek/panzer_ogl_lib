@@ -1,5 +1,4 @@
-#ifndef POLYGON_BUFFER_H
-#define POLYGON_BUFFER_H
+#pragma once
 
 #include "panzer_ogl_lib.hpp"
 
@@ -43,6 +42,3 @@ private:
 
 
 };
-
-
-#endif//POLYGON_BUFFER_H

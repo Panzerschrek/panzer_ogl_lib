@@ -1,5 +1,4 @@
-#ifndef MATRIX_H
-#define MATRIX_H
+#pragma once
 
 #include "vec.hpp"
 
@@ -86,7 +85,3 @@ public:
 };
 
 m_Vec3 operator*( const m_Vec3& v, const m_Mat3& m );
-
-
-
-#endif//_MATRIX_H_

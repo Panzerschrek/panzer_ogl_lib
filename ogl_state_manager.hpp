@@ -1,5 +1,4 @@
-#ifndef OGL_STATE_MANAGER_H
-#define OGL_STATE_MANAGER_H
+#pragma once
 
 #include "panzer_ogl_lib.hpp"
 
@@ -53,6 +52,3 @@ class r_OGLStateManager
 	static r_OGLState state;
 
 };
-
-
-#endif//OGL_STATE_MANAGER_H

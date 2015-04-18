@@ -1,6 +1,4 @@
-
-#ifndef FUNC_DECLARATIONS_H
-#define FUNC_DECLARATIONS_H
+#pragma once
 
 /*shaders*/
 extern PFNGLCREATESHADERPROC			glCreateShader;
@@ -77,6 +75,4 @@ extern PFNGLDRAWELEMENTSINSTANCEDPROC	glDrawElementsInstanced;
 extern PFNGLWAITSYNCPROC glWaitSync;
 extern PFNGLFENCESYNCPROC glFenceSync;
 
-
 void GetGLFunctions( void* (*GetProcAddressFunc)(const char*) );
-#endif//_NN_FUNC_DECLARATIONS_H_

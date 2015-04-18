@@ -1,5 +1,4 @@
-#ifndef VEC_H
-#define VEC_H
+#pragma once
 
 #include <math.h>
 
@@ -353,5 +352,3 @@ inline m_Vec2 m_Vec3::yz() const
 {
 	return m_Vec2( y, z );
 }
-
-#endif // VEC_H

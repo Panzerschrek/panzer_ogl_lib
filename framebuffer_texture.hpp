@@ -1,5 +1,4 @@
-﻿#ifndef FRAMEBUFFER_TEXTURE_HPP
-#define FRAMEBUFFER_TEXTURE_HPP
+#pragma once
 
 #include "panzer_ogl_lib.hpp"
 
@@ -146,4 +145,3 @@ inline bool r_FramebufferTexture::Created() const
 {
 	return created_;
 }
-#endif//FRAMEBUFFER_TEXTURE_HPP

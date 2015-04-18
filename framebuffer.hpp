@@ -1,5 +1,4 @@
-#ifndef FRAMEBUFFER_HPP
-#define FRAMEBUFFER_HPP
+#pragma once
 
 #include <vector>
 
@@ -78,6 +77,3 @@ inline void r_Framebuffer::SetScreenFramebufferSize( int width, int height )
 	screen_framebuffer_width_= width;
 	screen_framebuffer_height_= height;
 }
-
-
-#endif//FRAMEBUFFER_HPP

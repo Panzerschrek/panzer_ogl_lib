@@ -1,5 +1,4 @@
-#ifndef GLSL_PROGRAM_H
-#define GLSL_PROGRAM_H
+#pragma once
 
 #include <string>
 #include <vector>
@@ -67,5 +66,3 @@ private:
     std::vector<Attrib_s> attribs_;
 
 };
-
-#endif//GLSL_PROGRAM_H
