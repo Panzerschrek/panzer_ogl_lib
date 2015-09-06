@@ -4,14 +4,27 @@
 
 class r_OGLState
 {
-	public:
+public:
+
+	static const float default_clear_color[4];
+	static const float default_clear_depth;
+	static const GLenum default_cull_face_mode;
+	static const bool default_depth_mask;
+
 	r_OGLState(){}
 	~r_OGLState(){}
 	//constructor for full initialazing
-	r_OGLState( bool blend, bool cull_face, bool depth_test, bool program_point_size,
-				const GLenum* blend_func, const float* clear_color, float clear_depth, GLenum cull_face_mode, bool depth_mask );
+	r_OGLState(
+		bool blend, bool cull_face, bool depth_test, bool program_point_size,
+		const GLenum* blend_func,
+		const float* clear_color= default_clear_color,
+		float clear_depth= default_clear_depth,
+		GLenum cull_face_mode= default_cull_face_mode,
+		bool depth_mask= default_depth_mask );
 
+	// State on OpenGL startup
 	void InitialState();
+
 	bool blend;
 	bool cull_face;
 	bool depth_test;
@@ -27,28 +40,12 @@ class r_OGLState
 
 class r_OGLStateManager
 {
-	public:
-	static void BlendFunc( GLenum sfactor, GLenum dfactor );
-	static void ClearColor( float red, float green, float blue, float alpha );
-	static void ClearDepth( float depth );
-	static void CullFace( GLenum mode );
-	static void DepthFunc( GLenum func );
-
-	static void EnableBlend();
-	static void DisableBlend();
-	static void EnableFaceCulling();
-	static void DisableFaceCulling();
-	static void EnableDepthTest();
-	static void DisableDepthTest();
-	static void DepthMask( bool mask );
-	static void EnableProgramPointSize();
-	static void DisableProgramPointSize();
-
+public:
 	static void SetState( const r_OGLState& state );//FORCE set state
 	static void UpdateState( const r_OGLState& state );
-	static void GetState( r_OGLState* state );
-	private:
 
-	static r_OGLState state;
+	static const r_OGLState& GetState();
 
+private:
+	static r_OGLState state_;
 };
