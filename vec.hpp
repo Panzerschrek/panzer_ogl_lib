@@ -191,7 +191,7 @@ inline m_Vec2& m_Vec2::operator*=( float a )
 inline m_Vec2 m_Vec2::operator/( float a ) const
 {
 	float r= 1.0f / a;
-	m_Vec2( x * r, y * r );
+	return m_Vec2( x * r, y * r );
 }
 
 inline m_Vec2& m_Vec2::operator/=( float a )
