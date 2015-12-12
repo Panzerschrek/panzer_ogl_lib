@@ -39,6 +39,9 @@ public:
 	m_Vec2& operator*=( const m_Vec2& v );
 };
 
+bool operator==( const m_Vec2& v1, const m_Vec2& v2 );
+bool operator!=( const m_Vec2& v1, const m_Vec2& v2 );
+
 m_Vec2 operator*( float a, const m_Vec2& v );
 float mVec2Cross( const m_Vec2& v1, const m_Vec2 v2 );
 
@@ -83,6 +86,9 @@ public:
 	float operator* ( const m_Vec3& v ) const;
 	m_Vec3& operator*=( const m_Vec3& v );
 };
+
+bool operator==( const m_Vec3& v1, const m_Vec3& v2 );
+bool operator!=( const m_Vec3& v1, const m_Vec3& v2 );
 
 m_Vec3 operator*( float a, const m_Vec3& v );
 m_Vec3 mVec3Cross( const m_Vec3& v1, const m_Vec3& v2 );
@@ -212,6 +218,16 @@ inline m_Vec2& m_Vec2::operator*=( const m_Vec2& v )
 	x*= v.x;
 	y*= v.y;
 	return *this;
+}
+
+inline bool operator==( const m_Vec2& v1, const m_Vec2& v2 )
+{
+	return v1.x == v2.x && v1.y == v2.y;
+}
+
+inline bool operator!=( const m_Vec2& v1, const m_Vec2& v2 )
+{
+	return v1.x != v2.x || v1.y != v2.y;
 }
 
 inline m_Vec2 operator*( float a, const m_Vec2& v )
@@ -370,6 +386,16 @@ inline m_Vec2 m_Vec3::xz() const
 inline m_Vec2 m_Vec3::yz() const
 {
 	return m_Vec2( y, z );
+}
+
+inline bool operator==( const m_Vec3& v1, const m_Vec3& v2 )
+{
+	return v1.x == v2.x && v1.y == v2.y && v1.z == v2.z;
+}
+
+inline bool operator!=( const m_Vec3& v1, const m_Vec3& v2 )
+{
+	return v1.x != v2.x || v1.y != v2.y || v1.z != v2.z;
 }
 
 inline m_Vec3 operator*( float a, const m_Vec3& v )
