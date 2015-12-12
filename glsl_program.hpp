@@ -23,13 +23,23 @@ public:
 
     void SetAttribLocation( const char* name, unsigned int location );
 
+	 // vec3
     void Uniform( const char* name, const m_Vec3& v);
+    // int
     void Uniform( const char* name, int i );
+    // int array
 	void Uniform( const char* name, int* i, unsigned int count );
+	// mat4
     void Uniform( const char* name, const m_Mat4& m );
+    // mat4 array
 	void Uniform( const char* name, const m_Mat4* m, unsigned int count );
+	// mat3
     void Uniform( const char* name, const m_Mat3& m );
+    // float
     void Uniform( const char* name, float f );
+    // float array
+    void Uniform( const char* name, const float* f, unsigned int count );
+    // vec4
     void Uniform( const char* name, float f0, float f1, float f2, float f3 );
 
     void Define( const char* def );

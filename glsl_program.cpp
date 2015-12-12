@@ -353,6 +353,17 @@ void r_GLSLProgram::Uniform( const char* name, float f )
     glUniform1f( u, f );
 }
 
+void r_GLSLProgram::Uniform( const char* name, const float* f, unsigned int count )
+{
+	int u= GetUniform( name );
+    if( u == -1 )
+        return;
+
+	// TODO - use something, like glUniformfv
+	for( unsigned int i= 0; i < count; i++ )
+		glUniform1f( u + i, f[i] );
+}
+
 void r_GLSLProgram::Uniform( const char* name, float f0, float f1, float f2, float f3 )
 {
 	int u= GetUniform( name );
