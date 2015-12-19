@@ -53,26 +53,27 @@ extern PFNGLUNIFORM4FPROC			glUniform4f;
 extern PFNGLUNIFORM1FPROC          glUniform1f;
 extern PFNGLDRAWBUFFERSPROC         glDrawBuffers;
 
-
 /*textures*/
 extern PFNGLACTIVETEXTUREPROC	glActiveTexture;
 extern PFNGLGENERATEMIPMAPPROC	glGenerateMipmap;
 extern PFNGLTEXIMAGE3DPROC      glTexImage3D;
 extern PFNGLTEXSUBIMAGE3DPROC  glTexSubImage3D;
 
-
 /*FBO*/
 extern PFNGLGENFRAMEBUFFERSPROC			glGenFramebuffers;
+extern PFNGLDELETEFRAMEBUFFERSPROC		glDeleteFramebuffers;
 extern PFNGLBINDFRAMEBUFFERPROC			glBindFramebuffer;
 extern PFNGLFRAMEBUFFERTEXTUREPROC		glFramebufferTexture;
-extern PFNGLFRAMEBUFFERTEXTURE2DPROC glFramebufferTexture2D;
+extern PFNGLFRAMEBUFFERTEXTURE2DPROC	glFramebufferTexture2D;
 extern PFNGLFRAMEBUFFERTEXTURELAYERPROC	glFramebufferTextureLayer;
 extern PFNGLBINDFRAGDATALOCATIONPROC	glBindFragDataLocation;
-extern PFNGLMINSAMPLESHADINGPROC			glMinSampleShading;
+extern PFNGLMINSAMPLESHADINGPROC		glMinSampleShading;
 
 extern PFNGLDRAWELEMENTSINSTANCEDPROC	glDrawElementsInstanced;
 
 extern PFNGLWAITSYNCPROC glWaitSync;
 extern PFNGLFENCESYNCPROC glFenceSync;
 
-void GetGLFunctions( void* (*GetProcAddressFunc)(const char*) );
+void GetGLFunctions(
+	void* (*GetProcAddressFunc)(const char* func_name),
+	void (*FuncNotFoundCallback)(const char* func_name) = nullptr );

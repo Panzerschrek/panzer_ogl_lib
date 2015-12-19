@@ -119,7 +119,8 @@ void r_Framebuffer::Destroy()
 
 	if( depth_texture_.Created() )
 		depth_texture_.Destroy();
-//	glDeleteFramebuffers( 1, &framebuffer_id );
+
+	glDeleteFramebuffers( 1, &framebuffer_id_ );
 }
 
 void r_Framebuffer::Bind()
