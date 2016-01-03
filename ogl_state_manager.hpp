@@ -34,8 +34,8 @@ public:
 	float clear_color[4];
 	float clear_depth;
 	GLenum cull_face_mode;
-	GLenum depth_func;
 	bool depth_mask;
+	GLenum depth_func;
 };
 
 class r_OGLStateManager
