@@ -487,6 +487,33 @@ void m_Mat4::RotateZ( float a )
 	value[12]= value[13]= value[14]= 0.0f;
 }
 
+void m_Mat4::Roatate( const m_Vec3& axis, float angle )
+{
+	m_Vec3 normalized_vec= axis;
+	normalized_vec.Normalize();
+
+	float cos_a= cosf( +angle );
+	float sin_a= sinf( -angle );
+	float one_minus_cos_a= 1.0f - cos_a;
+
+	value[ 0]= cos_a + one_minus_cos_a * normalized_vec.x * normalized_vec.x;
+	value[ 1]= one_minus_cos_a * normalized_vec.x * normalized_vec.y - sin_a * normalized_vec.z;
+	value[ 2]= one_minus_cos_a * normalized_vec.x * normalized_vec.z + sin_a * normalized_vec.y;
+	value[ 3]= 0.0f;
+	value[ 4]= one_minus_cos_a * normalized_vec.x * normalized_vec.y + sin_a * normalized_vec.z;
+	value[ 5]= cos_a + one_minus_cos_a * normalized_vec.y * normalized_vec.y;
+	value[ 6]= one_minus_cos_a * normalized_vec.y * normalized_vec.z - sin_a * normalized_vec.x;
+	value[ 7]= 0.0f;
+	value[ 8]= one_minus_cos_a * normalized_vec.x * normalized_vec.z - sin_a * normalized_vec.y;
+	value[ 9]= one_minus_cos_a * normalized_vec.y * normalized_vec.z + sin_a * normalized_vec.x;
+	value[10]= cos_a + one_minus_cos_a * normalized_vec.z * normalized_vec.z;
+	value[11]= 0.0f;
+	value[12]= 0.0f;
+	value[13]= 0.0f;
+	value[14]= 0.0f;
+	value[15]= 1.0f;
+}
+
 void m_Mat4::PerspectiveProjection( float aspect, float fov_y, float z_near, float z_far)
 {
 	float f= 1.0f / tanf( fov_y * 0.5f );

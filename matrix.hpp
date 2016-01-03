@@ -70,6 +70,8 @@ public:
 	void RotateX( float a );
 	void RotateY( float a );
 	void RotateZ( float a );
+	void Roatate( const m_Vec3& axis, float angle );
+
 	void PerspectiveProjection( float aspect, float fov_y, float z_near, float z_far);
 	void AxonometricProjection( float scale_x, float scale_y, float z_near, float z_far );
 
