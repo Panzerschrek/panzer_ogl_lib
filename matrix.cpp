@@ -487,7 +487,7 @@ void m_Mat4::RotateZ( float a )
 	value[12]= value[13]= value[14]= 0.0f;
 }
 
-void m_Mat4::Roatate( const m_Vec3& axis, float angle )
+void m_Mat4::Rotate( const m_Vec3& axis, float angle )
 {
 	m_Vec3 normalized_vec= axis;
 	normalized_vec.Normalize();
