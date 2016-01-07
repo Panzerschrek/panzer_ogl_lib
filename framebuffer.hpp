@@ -14,26 +14,28 @@ public:
 	static void BindScreenFramebuffer();
 
 	r_Framebuffer();
+	r_Framebuffer( const r_Framebuffer& )= delete;
 	r_Framebuffer( r_Framebuffer&& other );
+	r_Framebuffer(
+		const std::vector< r_Texture::PixelFormat >& color_textures,
+		r_Texture::PixelFormat depth_buffer_texture_format,
+		unsigned int width, unsigned int height );
 	~r_Framebuffer();
 
 	r_Framebuffer& operator=( const r_Framebuffer& )= delete;
 	r_Framebuffer& operator=( r_Framebuffer&& other );
 
-	void Create(
-		const std::vector< r_Texture::PixelFormat >& color_textures,
-		r_Texture::PixelFormat depth_buffer_texture_format,
-		unsigned int width, unsigned int height );
-
-	void Destroy();
-
 	void Bind();
 
+	bool IsEmpty() const;
 	unsigned int Width () const;
 	unsigned int Height() const;
 
 	const std::vector< r_Texture >& GetTextures() const;
 	const r_Texture& GetDepthTexture() const;
+
+private:
+	void DeleteFramebufferObject();
 
 private:
 	GLuint framebuffer_id_;

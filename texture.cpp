@@ -233,12 +233,59 @@ r_Texture::r_Texture( r_Texture&& other )
 	*this= std::move(other);
 }
 
+r_Texture::r_Texture( PixelFormat f, unsigned int width, unsigned int height )
+	: tex_id_( c_texture_not_created_ )
+	, format_( f )
+	, wrap_mode_( WrapMode::Repeat )
+	, filter_min_( Filtration::NearestMipmapLinear )
+	, filter_mag_( Filtration::Linear )
+	, size_x_(width), size_y_(height)
+{
+	glGenTextures( 1, &tex_id_ );
+	glBindTexture( GL_TEXTURE_2D, tex_id_ );
+
+	SetData( nullptr );
+}
+
+r_Texture::r_Texture( PixelFormat f, unsigned int width, unsigned int height, const unsigned char* data )
+	: tex_id_( c_texture_not_created_ )
+	, format_( f )
+	, wrap_mode_( WrapMode::Repeat )
+	, filter_min_( Filtration::NearestMipmapLinear )
+	, filter_mag_( Filtration::Linear )
+	, size_x_(width), size_y_(height)
+{
+	glGenTextures( 1, &tex_id_ );
+	glBindTexture( GL_TEXTURE_2D, tex_id_ );
+
+	SetData( data );
+}
+
+r_Texture::r_Texture( PixelFormat f, unsigned int width, unsigned int height, const float* data )
+	: tex_id_( c_texture_not_created_ )
+	, format_( f )
+	, wrap_mode_( WrapMode::Repeat )
+	, filter_min_( Filtration::NearestMipmapLinear )
+	, filter_mag_( Filtration::Linear )
+	, size_x_(width), size_y_(height)
+{
+	glGenTextures( 1, &tex_id_ );
+	glBindTexture( GL_TEXTURE_2D, tex_id_ );
+
+	SetData( data );
+}
+
 r_Texture::~r_Texture()
 {
+	if( tex_id_ != c_texture_not_created_ )
+		glDeleteTextures( 1, &tex_id_ );
 }
 
 r_Texture& r_Texture::operator=( r_Texture&& other )
 {
+	if( tex_id_ != c_texture_not_created_ )
+		glDeleteTextures( 1, &tex_id_ );
+
 	tex_id_= other.tex_id_;
 	other.tex_id_= c_texture_not_created_;
 
@@ -256,52 +303,10 @@ r_Texture& r_Texture::operator=( r_Texture&& other )
 
 	size_x_= other.size_x_;
 	other.size_x_= 0;
-
 	size_y_= other.size_y_;
 	other.size_y_= 0;
 
 	return *this;
-}
-
-void r_Texture::Create( PixelFormat f, unsigned int width, unsigned int height )
-{
-	size_x_= width;
-	size_y_= height;
-	format_= f;
-
-	glGenTextures( 1, &tex_id_ );
-	glBindTexture( GL_TEXTURE_2D, tex_id_ );
-
-	SetData( nullptr );
-}
-
-void r_Texture::Create( PixelFormat f, unsigned int width, unsigned int height, const unsigned char* data )
-{
-	size_x_= width;
-	size_y_= height;
-	format_= f;
-
-	glGenTextures( 1, &tex_id_ );
-	glBindTexture( GL_TEXTURE_2D, tex_id_ );
-
-	SetData( data );
-}
-
-void r_Texture::Create( PixelFormat f, unsigned int width, unsigned int height, const float* data )
-{
-	size_x_= width;
-	size_y_= height;
-	format_= f;
-
-	glGenTextures( 1, &tex_id_ );
-	glBindTexture( GL_TEXTURE_2D, tex_id_ );
-
-	SetData( data );
-}
-
-void r_Texture::Destroy()
-{
-	glDeleteTextures( 1, &tex_id_ );
 }
 
 void r_Texture::SetData( decltype(nullptr) )
@@ -379,9 +384,9 @@ void r_Texture::Bind( unsigned int unit ) const
 	glBindTexture( GL_TEXTURE_2D, tex_id_ );
 }
 
-bool r_Texture::Created() const
+bool r_Texture::IsEmpty() const
 {
-	return tex_id_ != c_texture_not_created_;
+	return tex_id_ == c_texture_not_created_;
 }
 
 unsigned int r_Texture::Width () const

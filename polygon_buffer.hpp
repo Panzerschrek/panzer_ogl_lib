@@ -4,8 +4,13 @@
 class r_PolygonBuffer
 {
 public:
-    r_PolygonBuffer();
+	r_PolygonBuffer();
+	r_PolygonBuffer( const r_PolygonBuffer& )= delete;
+	r_PolygonBuffer( r_PolygonBuffer&& other );
 	~r_PolygonBuffer();
+
+	r_PolygonBuffer& operator=( const r_PolygonBuffer& )= delete;
+	r_PolygonBuffer& operator=( r_PolygonBuffer&& other );
 
 	void VertexData( const void* data, unsigned int d_size, unsigned int v_size );
 	void VertexSubData( const void* data, unsigned int d_size, unsigned int shift );
@@ -17,10 +22,7 @@ public:
 
 	void Bind() const;
 
-	// deletes any GPY data of polygon buffer
-	void Destroy();
-
-	void Show() const;
+	void Draw() const;
 
 	inline void SetPrimitiveType( GLenum t )
 	{

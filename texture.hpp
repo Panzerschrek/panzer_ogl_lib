@@ -49,17 +49,17 @@ public:
 	};
 
 	r_Texture();
+	r_Texture( const r_Texture& )= delete;
 	r_Texture( r_Texture&& other );
+	//create and bind texture
+	r_Texture( PixelFormat format, unsigned int width, unsigned int height );
+	r_Texture( PixelFormat format, unsigned int width, unsigned int height, const unsigned char* data );
+	r_Texture( PixelFormat format, unsigned int width, unsigned int height, const float* data );
+
 	~r_Texture();
 
 	r_Texture& operator=( const r_Texture& )= delete;
 	r_Texture& operator=( r_Texture&& other );
-
-	//create and bind texture
-	void Create( PixelFormat format, unsigned int width, unsigned int height );
-	void Create( PixelFormat format, unsigned int width, unsigned int height, const unsigned char* data );
-	void Create( PixelFormat format, unsigned int width, unsigned int height, const float* data );
-	void Destroy();
 
 	//load texture data into GPU. Texture must be created and binded before.
 	void SetData( decltype(nullptr) );
@@ -74,7 +74,7 @@ public:
 	//bind texture and set active texture unit.
 	void Bind( unsigned int unit= 0 ) const;
 
-	bool Created() const;
+	bool IsEmpty() const;
 	unsigned int Width () const;
 	unsigned int Height() const;
 	bool IsDepthTexture() const;
