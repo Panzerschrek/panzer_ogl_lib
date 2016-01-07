@@ -54,6 +54,7 @@ public:
 	m_Vec3( const m_Vec3& v );
 	m_Vec3( float a, float b, float c );
 	explicit m_Vec3( const float* f ); // construct from array
+	m_Vec3( const m_Vec2& vec2, float in_z );
 	~m_Vec3(){}
 
 	float Length() const;
@@ -249,6 +250,7 @@ inline m_Vec3::m_Vec3( const m_Vec3& v ) : x(v.x), y(v.y), z(v.z) {}
 inline m_Vec3::m_Vec3( float a, float b, float c) : x(a), y(b), z(c) {}
 
 inline m_Vec3::m_Vec3( const float* f ) : x(f[0]), y(f[1]), z(f[2]) {}
+inline m_Vec3::m_Vec3( const m_Vec2& vec2, float in_z ) : x(vec2.x), y(vec2.y), z(in_z) {}
 
 inline float m_Vec3::Length() const
 {
