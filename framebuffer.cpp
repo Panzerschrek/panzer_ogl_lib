@@ -60,7 +60,6 @@ r_Framebuffer::r_Framebuffer(
 	: size_x_(width)
 	, size_y_(height)
 {
-
 	glGenFramebuffers( 1, &framebuffer_id_ );
 	glBindFramebuffer( GL_FRAMEBUFFER, framebuffer_id_ );
 

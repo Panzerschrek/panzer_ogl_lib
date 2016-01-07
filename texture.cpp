@@ -311,13 +311,7 @@ r_Texture& r_Texture::operator=( r_Texture&& other )
 
 void r_Texture::SetData( decltype(nullptr) )
 {
-	GLenum gl_format= FormatToInternalFormat( format_ );
-	GLenum component_format= FormatToBaseFormat( format_ );
-
-	glTexImage2D(
-		GL_TEXTURE_2D, 0, gl_format,
-		size_x_, size_y_, 0,
-		component_format, GL_FLOAT, nullptr );
+	SetData( (unsigned char*)nullptr );
 }
 
 void r_Texture::SetData( const float* data )
