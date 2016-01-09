@@ -8,71 +8,81 @@
 #include "vec.hpp"
 #include "matrix.hpp"
 
-class r_GLSLProgram
+class r_GLSLProgram final
 {
 public:
-	 r_GLSLProgram();
-    ~r_GLSLProgram();
+	r_GLSLProgram();
+	r_GLSLProgram( const r_GLSLProgram& )= delete;
+	~r_GLSLProgram();
+
+	r_GLSLProgram& operator=( r_GLSLProgram& )= delete;
 
 	// returns false, if something wrong
-    bool Load( const char* frag_file, const char* vert_file, const char* geom_file = NULL );
-    void ShaderSource( const char* frag_src, const char* vert_src, const char* geom_src );
+	bool Load( const char* frag_file, const char* vert_file, const char* geom_file = nullptr );
+	void ShaderSource( const char* frag_src, const char* vert_src, const char* geom_src= nullptr );
+
+	// Call SetAttribLocation and Define before shader compilation
+	void SetAttribLocation( const char* name, unsigned int location );
+	void Define( const char* def );
 
 	void Create(); // compiles shader and link program object
 	void Destroy(); // deletes shaders and program object
 
-    void SetAttribLocation( const char* name, unsigned int location );
+	void Bind() const;
 
-	 // vec3
-    void Uniform( const char* name, const m_Vec3& v);
-    // int
-    void Uniform( const char* name, int i );
-    // int array
+	// int
+	void Uniform( const char* name, int i );
+	// int array
 	void Uniform( const char* name, int* i, unsigned int count );
-	// mat4
-    void Uniform( const char* name, const m_Mat4& m );
-    // mat4 array
-	void Uniform( const char* name, const m_Mat4* m, unsigned int count );
+	// float
+	void Uniform( const char* name, float f );
+	// float array
+	void Uniform( const char* name, const float* f, unsigned int count );
+	// vec2
+	void Uniform( const char* name, const m_Vec2& v );
+	// vec2 array
+	void Uniform( const char* name, const m_Vec2* v, unsigned int count );
 	// mat3
-    void Uniform( const char* name, const m_Mat3& m );
-    // float
-    void Uniform( const char* name, float f );
-    // float array
-    void Uniform( const char* name, const float* f, unsigned int count );
-    // vec4
-    void Uniform( const char* name, float f0, float f1, float f2, float f3 );
-
-    void Define( const char* def );
-
-    void Bind() const;
-
-private:
-    void FindAllUniforms();
-    void FindAllUniformsInShader( const char* shader_text );
-    int FindUniform( const char* name );
-    int GetUniform( const char* name );
+	// vec3
+	void Uniform( const char* name, const m_Vec3& v );
+	// vec3 array
+	void Uniform( const char* name, const m_Vec3* v, unsigned int count );
+	// mat3
+	void Uniform( const char* name, const m_Mat3& m );
+	// mat3 array
+	void Uniform( const char* name, const m_Mat3* m, unsigned int count );
+	// mat4
+	void Uniform( const char* name, const m_Mat4& m );
+	// mat4 array
+	void Uniform( const char* name, const m_Mat4* m, unsigned int count );
+	// vec4
+	void Uniform( const char* name, float f0, float f1, float f2, float f3 );
 
 private:
-    GLuint prog_handle_;
-    GLuint frag_handle_, vert_handle_, geom_handle_;
-    std::string vert_text_;
-    std::string frag_text_;
-    std::string geom_text_;
-
-    std::vector< std::string > defines_;
-
-    struct Uniform_s
-    {
-    	std::string name;
-    	GLint id;
-    };
-    std::vector<Uniform_s> uniforms_;
+	struct Uniform_s
+	{
+		std::string name;
+		GLint id;
+	};
 
 	struct Attrib_s
 	{
 		std::string name;
 		GLint location;
 	};
-    std::vector<Attrib_s> attribs_;
 
+private:
+	void FindUniforms();
+	int GetUniform( const char* name );
+
+private:
+	GLuint prog_handle_;
+	GLuint frag_handle_, vert_handle_, geom_handle_;
+	std::string vert_text_;
+	std::string frag_text_;
+	std::string geom_text_;
+
+	std::vector<std::string> defines_;
+	std::vector<Uniform_s> uniforms_;
+	std::vector<Attrib_s> attribs_;
 };
