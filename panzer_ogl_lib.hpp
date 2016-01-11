@@ -1,5 +1,5 @@
 #pragma once
 
-#include <Gl/gl.h>
+#include <GL/gl.h>
 #include "glcorearb.h"
 #include "func_declarations.hpp"
