@@ -11,6 +11,9 @@
 class r_GLSLProgram final
 {
 public:
+	typedef void (*ProgramBuildLogOutCallback)( const char* text );
+	static void SetProgramBuildLogOutCallback( ProgramBuildLogOutCallback callback );
+
 	r_GLSLProgram();
 	r_GLSLProgram( const r_GLSLProgram& )= delete;
 	~r_GLSLProgram();
@@ -85,4 +88,6 @@ private:
 	std::vector<std::string> defines_;
 	std::vector<Uniform_s> uniforms_;
 	std::vector<Attrib_s> attribs_;
+
+	static ProgramBuildLogOutCallback build_log_out_callback_;
 };

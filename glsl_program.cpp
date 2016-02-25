@@ -1,3 +1,5 @@
+#include <cstdio>
+
 #include "panzer_ogl_lib.hpp"
 
 #include "glsl_program.hpp"
@@ -23,6 +25,13 @@ static bool LoadShader( const char* file_name, std::string& out_string )
 	fclose( file );
 
 	return true;
+}
+
+r_GLSLProgram::ProgramBuildLogOutCallback r_GLSLProgram::build_log_out_callback_= nullptr;
+
+void r_GLSLProgram::SetProgramBuildLogOutCallback( ProgramBuildLogOutCallback callback )
+{
+	build_log_out_callback_= callback;
 }
 
 r_GLSLProgram::r_GLSLProgram()
@@ -86,89 +95,69 @@ void r_GLSLProgram::Define( const char* def )
 
 void r_GLSLProgram::Create()
 {
-	int len;
-	int compile_status;
-	char build_log[4096];
-
-	const unsigned int max_shader_substrings= 128;
-	const char* shader_text_buf[ max_shader_substrings ];
-	GLint shader_strings_len[ max_shader_substrings ];
+	std::vector<const char*> shader_text_lines( defines_.size() + 1 );
+	std::vector<GLint> shader_text_lines_size( defines_.size() + 1 );
 
 	for( unsigned int i= 0; i < defines_.size(); i++ )
 	{
-		shader_text_buf[i]= defines_[i].data();
-		shader_strings_len[i]= defines_[i].length();
+		shader_text_lines[i]= defines_[i].data();
+		shader_text_lines_size[i]= defines_[i].length();
 	}
 
 	prog_handle_= glCreateProgram();
 
-	if( frag_text_.length() != 0 )
+	auto process_shader=
+	[this, &shader_text_lines, &shader_text_lines_size]( GLenum shader_type, GLuint& handle, const std::string& text )
 	{
-		frag_handle_= glCreateShader( GL_FRAGMENT_SHADER );
+		handle= glCreateShader( shader_type );
 
-		shader_text_buf[ defines_.size() ]= frag_text_.data();
-		shader_strings_len[ defines_.size() ]= frag_text_.length();
-		glShaderSource( frag_handle_, defines_.size() + 1, shader_text_buf, shader_strings_len );
+		shader_text_lines.back()= text.data();
+		shader_text_lines_size.back()= text.length();
+		glShaderSource( handle, shader_text_lines.size(), shader_text_lines.data(), shader_text_lines_size.data() );
 
-		glCompileShader( frag_handle_ );
-		glGetShaderiv( frag_handle_ , GL_COMPILE_STATUS, &compile_status );
-		if( !compile_status )
+		glCompileShader( handle );
+
+		GLint log_length;
+		glGetShaderiv( handle, GL_INFO_LOG_LENGTH, &log_length );
+		if( log_length > 1 )
 		{
-			glGetShaderInfoLog( frag_handle_, sizeof(build_log), &len, build_log );
-			printf( "fragment shader error:\n\n%s\nerrors:\n%s\n", frag_text_.data(), build_log );
-			compile_status= 1;
+			std::vector<char> log( log_length );
+			glGetShaderInfoLog( handle, log.size(), &log_length, log.data() );
+
+			if( build_log_out_callback_ )
+				build_log_out_callback_( log.data() );
+			else
+				std::printf( "%s\n", log.data() );
 		}
-		glAttachShader( prog_handle_, frag_handle_ );
-	}
+
+		glAttachShader( prog_handle_, handle );
+	};
+
+	if( frag_text_.length() != 0 )
+		process_shader( GL_FRAGMENT_SHADER, frag_handle_, frag_text_.data() );
 
 	if( vert_text_.length() != 0 )
-	{
-		vert_handle_= glCreateShader( GL_VERTEX_SHADER );
-
-		shader_text_buf[ defines_.size() ]= vert_text_.data();
-		shader_strings_len[ defines_.size() ]= vert_text_.length();
-		glShaderSource( vert_handle_, defines_.size() + 1, shader_text_buf, shader_strings_len );
-
-		glCompileShader( vert_handle_ );
-		glGetShaderiv( vert_handle_ , GL_COMPILE_STATUS, &compile_status );
-		if( !compile_status )
-		{
-			glGetShaderInfoLog( vert_handle_, sizeof(build_log), &len, build_log );
-			printf( "vertex shader error:\n\n%s\nerrors:\n%s\n", vert_text_.data(), build_log );
-			compile_status= 1;
-		}
-		glAttachShader( prog_handle_, vert_handle_ );
-	}
+		process_shader( GL_VERTEX_SHADER, vert_handle_, vert_text_.data() );
 
 	if( geom_text_.length() != 0 )
-	{
-		geom_handle_= glCreateShader( GL_GEOMETRY_SHADER );
-
-		shader_text_buf[ defines_.size() ]= geom_text_.data();
-		shader_strings_len[ defines_.size() ]= geom_text_.length();
-		glShaderSource( geom_handle_, defines_.size() + 1, shader_text_buf, shader_strings_len );
-
-		glCompileShader( geom_handle_ );
-		glGetShaderiv( geom_handle_ , GL_COMPILE_STATUS, &compile_status );
-		if( !compile_status )
-		{
-			glGetShaderInfoLog( geom_handle_, sizeof(build_log), &len, build_log );
-			printf( "gemetry shader error:\n\n%s\nerrors:\n%s\n", geom_text_.data(), build_log );
-			compile_status= 1;
-		}
-		glAttachShader( prog_handle_, geom_handle_ );
-	}
+		process_shader( GL_GEOMETRY_SHADER, geom_handle_, geom_text_.data() );
 
 	for( const Attrib_s& attrib : attribs_ )
 		glBindAttribLocation( prog_handle_, attrib.location, attrib.name.data() );
 
 	glLinkProgram( prog_handle_ );
-	glGetProgramiv( prog_handle_, GL_LINK_STATUS, &compile_status );
-	if( !compile_status )
+
+	GLint program_log_length;
+	glGetProgramiv( prog_handle_, GL_INFO_LOG_LENGTH, &program_log_length );
+	if( program_log_length > 1 )
 	{
-		glGetProgramInfoLog( prog_handle_, sizeof(build_log), &len, build_log );
-		printf( "shader link error:\n %s\n", build_log );
-		return;
+		std::vector<char> log( program_log_length );
+		glGetProgramInfoLog( prog_handle_, log.size(), &program_log_length, log.data() );
+
+		if( build_log_out_callback_ )
+			build_log_out_callback_( log.data() );
+		else
+			std::printf( "%s\n", log.data() );
 	}
 
 	FindUniforms();
