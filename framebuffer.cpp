@@ -149,7 +149,17 @@ const std::vector<r_Texture>& r_Framebuffer::GetTextures() const
 	return textures_;
 }
 
+std::vector<r_Texture>& r_Framebuffer::GetTextures()
+{
+	return textures_;
+}
+
 const r_Texture& r_Framebuffer::GetDepthTexture() const
+{
+	return depth_texture_;
+}
+
+r_Texture& r_Framebuffer::GetDepthTexture()
 {
 	return depth_texture_;
 }

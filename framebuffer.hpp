@@ -32,7 +32,9 @@ public:
 	unsigned int Height() const;
 
 	const std::vector< r_Texture >& GetTextures() const;
+	std::vector< r_Texture >& GetTextures();
 	const r_Texture& GetDepthTexture() const;
+	r_Texture& GetDepthTexture();
 
 private:
 	void DeleteFramebufferObject();
