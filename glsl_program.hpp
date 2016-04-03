@@ -20,13 +20,10 @@ public:
 
 	r_GLSLProgram& operator=( r_GLSLProgram& )= delete;
 
-	// returns false, if something wrong
-	bool Load( const char* frag_file, const char* vert_file, const char* geom_file = nullptr );
-	void ShaderSource( const char* frag_src, const char* vert_src, const char* geom_src= nullptr );
+	void ShaderSource( std::string frag_text, std::string vert_tezt, std::string geom_text= std::string() );
 
-	// Call SetAttribLocation and Define before shader compilation
+	// Call before shader compilation.
 	void SetAttribLocation( const char* name, unsigned int location );
-	void Define( const char* def );
 
 	void Create(); // compiles shader and link program object
 	void Destroy(); // deletes shaders and program object
@@ -85,7 +82,6 @@ private:
 	std::string frag_text_;
 	std::string geom_text_;
 
-	std::vector<std::string> defines_;
 	std::vector<Uniform_s> uniforms_;
 	std::vector<Attrib_s> attribs_;
 

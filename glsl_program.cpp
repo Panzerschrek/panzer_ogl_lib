@@ -1,31 +1,11 @@
 #include <cstdio>
+#include <cstring>
 
 #include "panzer_ogl_lib.hpp"
 
 #include "glsl_program.hpp"
 
 #define HANDLE_NOT_CREATED 0x7fffffff
-
-static bool LoadShader( const char* file_name, std::string& out_string )
-{
-	unsigned int f_size;
-	FILE* file;
-
-	file= fopen( file_name, "rb" );
-	if( file == nullptr )
-		return false;
-
-	fseek( file, 0, SEEK_END );
-	f_size= ftell( file );
-	fseek( file, 0, SEEK_SET );
-
-	out_string.resize( f_size+1, 0 );
-
-	fread( (char*)out_string.data(), 1, f_size, file );
-	fclose( file );
-
-	return true;
-}
 
 r_GLSLProgram::ProgramBuildLogOutCallback r_GLSLProgram::build_log_out_callback_= nullptr;
 
@@ -44,37 +24,11 @@ r_GLSLProgram::~r_GLSLProgram()
 	Destroy();
 }
 
-bool r_GLSLProgram::Load( const char* frag_file, const char* vert_file, const char* geom_file )
+void r_GLSLProgram::ShaderSource( std::string frag_text, std::string vert_text, std::string geom_text )
 {
-	bool ok= true;
-	if( frag_file != nullptr )
-		ok|= LoadShader( frag_file, frag_text_ );
-
-	if( vert_file != nullptr )
-		ok|= LoadShader( vert_file, vert_text_ );
-
-	if( geom_file != nullptr )
-		ok|= LoadShader( geom_file, geom_text_ );
-
-	return ok;
-}
-
-void r_GLSLProgram::ShaderSource( const char* frag_src, const char* vert_src, const char* geom_src )
-{
-	if( frag_src != nullptr )
-		frag_text_= frag_src;
-	else
-		frag_text_= "";
-
-	if( vert_src != nullptr )
-		vert_text_= vert_src;
-	else
-		vert_text_= "";
-
-	if( geom_src != nullptr )
-		geom_text_= geom_src;
-	else
-		geom_text_= "";
+	frag_text_= std::move( frag_text );
+	vert_text_= std::move( vert_text );
+	geom_text_= std::move( geom_text );
 }
 
 void r_GLSLProgram::SetAttribLocation( const char* name, unsigned int location )
@@ -85,35 +39,18 @@ void r_GLSLProgram::SetAttribLocation( const char* name, unsigned int location )
 	attribs_.push_back(a);
 }
 
-void r_GLSLProgram::Define( const char* def )
-{
-	std::string str( "#define " );
-	str+= def;
-	str+= "\n";
-	defines_.push_back( str );
-}
-
 void r_GLSLProgram::Create()
 {
-	std::vector<const char*> shader_text_lines( defines_.size() + 1 );
-	std::vector<GLint> shader_text_lines_size( defines_.size() + 1 );
-
-	for( unsigned int i= 0; i < defines_.size(); i++ )
-	{
-		shader_text_lines[i]= defines_[i].data();
-		shader_text_lines_size[i]= defines_[i].length();
-	}
-
 	prog_handle_= glCreateProgram();
 
 	auto process_shader=
-	[this, &shader_text_lines, &shader_text_lines_size]( GLenum shader_type, GLuint& handle, const std::string& text )
+	[this]( GLenum shader_type, GLuint& handle, const std::string& text )
 	{
 		handle= glCreateShader( shader_type );
 
-		shader_text_lines.back()= text.data();
-		shader_text_lines_size.back()= text.length();
-		glShaderSource( handle, shader_text_lines.size(), shader_text_lines.data(), shader_text_lines_size.data() );
+		const char* shader_text_lines[1]= { text.data() };
+		GLint shader_text_lines_size[1]= { int( text.length() ) };
+		glShaderSource( handle, 1, shader_text_lines, shader_text_lines_size );
 
 		glCompileShader( handle );
 
@@ -133,13 +70,13 @@ void r_GLSLProgram::Create()
 		glAttachShader( prog_handle_, handle );
 	};
 
-	if( frag_text_.length() != 0 )
+	if( !frag_text_.empty() )
 		process_shader( GL_FRAGMENT_SHADER, frag_handle_, frag_text_.data() );
 
-	if( vert_text_.length() != 0 )
+	if( !vert_text_.empty() )
 		process_shader( GL_VERTEX_SHADER, vert_handle_, vert_text_.data() );
 
-	if( geom_text_.length() != 0 )
+	if( !geom_text_.empty() )
 		process_shader( GL_GEOMETRY_SHADER, geom_handle_, geom_text_.data() );
 
 	for( const Attrib_s& attrib : attribs_ )
@@ -190,7 +127,6 @@ void r_GLSLProgram::Destroy()
 	frag_text_.clear();
 	geom_text_.clear();
 
-	defines_.clear();
 	uniforms_.clear();
 	attribs_.clear();
 }
@@ -352,7 +288,7 @@ int r_GLSLProgram::GetUniform( const char* name )
 {
 	for( const Uniform_s& uniform : uniforms_ )
 	{
-		if( strcmp( uniform.name.data(), name ) == 0 )
+		if( std::strcmp( uniform.name.data(), name ) == 0 )
 			return uniform.id;
 	}
 	return -1;
