@@ -218,10 +218,30 @@ GLenum r_Texture::WrapModeToGLWrapMode( WrapMode mode )
 	return 0;
 }
 
+GLenum r_Texture::CompareModeToGLCompareFunc( CompareMode mode )
+{
+	switch(mode)
+	{
+		case CompareMode::Unknown:
+		case CompareMode::None:
+			return 0;
+
+		case CompareMode::Less:
+			return GL_LESS;
+		case CompareMode::Greater:
+			return GL_GREATER;
+		case CompareMode::Equal:
+			return GL_EQUAL;
+	};
+
+	return 0;
+}
+
 r_Texture::r_Texture()
 	: tex_id_( c_texture_not_created_ )
 	, format_( PixelFormat::Unknown )
 	, wrap_mode_( WrapMode::Repeat )
+	, compare_mode_( CompareMode::None )
 	, filter_min_( Filtration::NearestMipmapLinear )
 	, filter_mag_( Filtration::Linear )
 	, size_x_(0), size_y_(0)
@@ -237,7 +257,8 @@ r_Texture::r_Texture( PixelFormat f, unsigned int width, unsigned int height )
 	: tex_id_( c_texture_not_created_ )
 	, format_( f )
 	, wrap_mode_( WrapMode::Repeat )
-	, filter_min_( Filtration::NearestMipmapLinear )
+	, compare_mode_( CompareMode::None )
+	, filter_min_( Filtration::LinearMipmapNearest )
 	, filter_mag_( Filtration::Linear )
 	, size_x_(width), size_y_(height)
 {
@@ -251,6 +272,7 @@ r_Texture::r_Texture( PixelFormat f, unsigned int width, unsigned int height, co
 	: tex_id_( c_texture_not_created_ )
 	, format_( f )
 	, wrap_mode_( WrapMode::Repeat )
+	, compare_mode_( CompareMode::None )
 	, filter_min_( Filtration::NearestMipmapLinear )
 	, filter_mag_( Filtration::Linear )
 	, size_x_(width), size_y_(height)
@@ -265,6 +287,7 @@ r_Texture::r_Texture( PixelFormat f, unsigned int width, unsigned int height, co
 	: tex_id_( c_texture_not_created_ )
 	, format_( f )
 	, wrap_mode_( WrapMode::Repeat )
+	, compare_mode_( CompareMode::None )
 	, filter_min_( Filtration::NearestMipmapLinear )
 	, filter_mag_( Filtration::Linear )
 	, size_x_(width), size_y_(height)
@@ -294,6 +317,9 @@ r_Texture& r_Texture::operator=( r_Texture&& other )
 
 	wrap_mode_= other.wrap_mode_;
 	other.wrap_mode_= WrapMode::Repeat;
+
+	compare_mode_= other.compare_mode_;
+	other.compare_mode_= CompareMode::None;
 
 	filter_min_= other.filter_min_;
 	other.filter_min_= Filtration::NearestMipmapLinear;
@@ -364,6 +390,22 @@ void r_Texture::SetFiltration( Filtration f_min, Filtration f_mag )
 	{
 		filter_mag_= f_mag;
 		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, FiltrationToGLFiltration(filter_min_) );
+	}
+}
+
+void r_Texture::SetCompareMode( CompareMode mode )
+{
+	if( mode != compare_mode_ )
+	{
+		compare_mode_= mode;
+
+		if( compare_mode_ != CompareMode::None )
+		{
+			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE );
+			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, CompareModeToGLCompareFunc(compare_mode_) );
+		}
+		else
+			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_NONE );
 	}
 }
 

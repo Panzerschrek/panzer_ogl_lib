@@ -48,6 +48,15 @@ public:
 		LinearMipmapLinear,
 	};
 
+	enum class CompareMode
+	{
+		Unknown= 0,
+		None,
+		Less,
+		Greater,
+		Equal,
+	};
+
 	r_Texture();
 	r_Texture( const r_Texture& )= delete;
 	r_Texture( r_Texture&& other );
@@ -61,14 +70,17 @@ public:
 	r_Texture& operator=( const r_Texture& )= delete;
 	r_Texture& operator=( r_Texture&& other );
 
-	//load texture data into GPU. Texture must be created and binded before.
+	// Load texture data into GPU. Texture must be created and binded before.
 	void SetData( decltype(nullptr) );
 	void SetData( const float* data );
 	void SetData( const unsigned char* data );
 
-	//texture params modification methods. Texture must be created and binded before it.
+	// Texture params modification methods. Texture must be created and binded before it.
 	void SetWrapMode( WrapMode mode );
 	void SetFiltration( Filtration filter_min, Filtration filter_mag );
+
+	// Compare mode can be set to different from "None" value only if texture format is depth.
+	void SetCompareMode( CompareMode mode );
 	void BuildMips();
 
 	//bind texture and set active texture unit.
@@ -84,12 +96,14 @@ private:
 	static GLenum FormatToBaseFormat( PixelFormat format );
 	static GLenum FiltrationToGLFiltration( Filtration filtration );
 	static GLenum WrapModeToGLWrapMode( WrapMode mode );
+	static GLenum CompareModeToGLCompareFunc( CompareMode mode );
 
 private:
 	GLuint tex_id_;
 
 	PixelFormat format_;
 	WrapMode wrap_mode_;
+	CompareMode compare_mode_;
 	Filtration filter_min_, filter_mag_;
 
 	unsigned int size_x_, size_y_;
