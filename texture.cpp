@@ -258,7 +258,7 @@ r_Texture::r_Texture( PixelFormat f, unsigned int width, unsigned int height )
 	, format_( f )
 	, wrap_mode_( WrapMode::Repeat )
 	, compare_mode_( CompareMode::None )
-	, filter_min_( Filtration::LinearMipmapNearest )
+	, filter_min_( Filtration::NearestMipmapLinear )
 	, filter_mag_( Filtration::Linear )
 	, size_x_(width), size_y_(height)
 {
