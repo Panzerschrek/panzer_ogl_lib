@@ -389,7 +389,7 @@ void r_Texture::SetFiltration( Filtration f_min, Filtration f_mag )
 	if( f_mag != filter_mag_ )
 	{
 		filter_mag_= f_mag;
-		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, FiltrationToGLFiltration(filter_min_) );
+		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, FiltrationToGLFiltration(filter_mag_) );
 	}
 }
 
