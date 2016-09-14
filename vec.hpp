@@ -1,6 +1,5 @@
 #pragma once
-
-#include <math.h>
+#include <cmath>
 
 class m_Vec2
 {
@@ -110,7 +109,7 @@ inline m_Vec2::m_Vec2( const float* f ) : x(f[0]), y(f[1]) {}
 
 inline float m_Vec2::Length() const
 {
-	return sqrtf( x * x + y * y );
+	return std::sqrt( x * x + y * y );
 
 }
 inline float m_Vec2::SquareLength() const
@@ -120,7 +119,7 @@ inline float m_Vec2::SquareLength() const
 
 inline float m_Vec2::InvLength() const
 {
-	return 1.0f / sqrtf( x * x + y * y  );
+	return 1.0f / std::sqrt( x * x + y * y );
 }
 
 inline float m_Vec2::InvSquareLength() const
@@ -135,7 +134,7 @@ inline float m_Vec2::MaxComponent() const
 
 inline m_Vec2& m_Vec2::Normalize()
 {
-	float r= sqrtf( x * x + y * y );
+	float r= std::sqrt( x * x + y * y );
 	if( r != 0.0f )
 		r= 1.0f / r;
 	x*= r;
@@ -258,7 +257,7 @@ inline m_Vec3::m_Vec3( const m_Vec2& vec2, float in_z ) : x(vec2.x), y(vec2.y), 
 
 inline float m_Vec3::Length() const
 {
-	return sqrtf( x * x + y * y + z * z );
+	return std::sqrt( x * x + y * y + z * z );
 }
 
 inline float m_Vec3::SquareLength() const
@@ -268,7 +267,7 @@ inline float m_Vec3::SquareLength() const
 
 inline float m_Vec3::InvLength() const
 {
-	return 1.0f / sqrtf( x * x + y * y + z * z );
+	return 1.0f / std::sqrt( x * x + y * y + z * z );
 }
 
 inline float m_Vec3::InvSquareLength() const
@@ -278,7 +277,7 @@ inline float m_Vec3::InvSquareLength() const
 
 inline m_Vec3& m_Vec3::Normalize()
 {
-	float r= sqrtf( x * x + y * y + z * z );
+	float r= std::sqrt( x * x + y * y + z * z );
 	r= 1.0f / r; // if r is zero, r= inf, 0*inf= NaN
 	x*= r;
 	y*= r;

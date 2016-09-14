@@ -152,7 +152,7 @@ void m_Mat3::Scale( const m_Vec3& v )
 
 void m_Mat3::RotateX( float a )
 {
-	float s= sinf(a), c= cosf(a);
+	float s= std::sin(a), c= std::cos(a);
 
 	value[4]= c;
 	value[7]= -s;
@@ -165,7 +165,7 @@ void m_Mat3::RotateX( float a )
 
 void m_Mat3::RotateY( float a )
 {
-	float s= sinf(a), c= cosf(a);
+	float s= std::sin(a), c= std::cos(a);
 
 	value[0]= c;
 	value[6]= s;
@@ -178,7 +178,7 @@ void m_Mat3::RotateY( float a )
 
 void m_Mat3::RotateZ( float a )
 {
-	float s= sinf(a), c= cosf(a);
+	float s= std::sin(a), c= std::cos(a);
 	value[0]= c;
 	value[3]= -s;
 	value[1]= s;
@@ -442,7 +442,7 @@ void m_Mat4::Scale( const m_Vec3& v )
 
 void m_Mat4::RotateX( float a )
 {
-	float s= sinf(a), c= cosf(a);
+	float s= std::sin(a), c= std::cos(a);
 
 	value[5 ]= c;
 	value[9 ]= -s;
@@ -458,7 +458,7 @@ void m_Mat4::RotateX( float a )
 
 void m_Mat4::RotateY( float a )
 {
-	float s= sinf(a), c= cosf(a);
+	float s= std::sin(a), c= std::cos(a);
 
 	value[0]= c;
 	value[8]= s;
@@ -474,7 +474,7 @@ void m_Mat4::RotateY( float a )
 
 void m_Mat4::RotateZ( float a )
 {
-	float s= sinf(a), c= cosf(a);
+	float s= std::sin(a), c= std::cos(a);
 	value[0]= c;
 	value[4]= -s;
 	value[1]= s;
@@ -492,8 +492,8 @@ void m_Mat4::Rotate( const m_Vec3& axis, float angle )
 	m_Vec3 normalized_vec= axis;
 	normalized_vec.Normalize();
 
-	float cos_a= cosf( +angle );
-	float sin_a= sinf( -angle );
+	float cos_a= std::cos( +angle );
+	float sin_a= std::sin( -angle );
 	float one_minus_cos_a= 1.0f - cos_a;
 
 	value[ 0]= cos_a + one_minus_cos_a * normalized_vec.x * normalized_vec.x;
@@ -516,7 +516,7 @@ void m_Mat4::Rotate( const m_Vec3& axis, float angle )
 
 void m_Mat4::PerspectiveProjection( float aspect, float fov_y, float z_near, float z_far)
 {
-	float f= 1.0f / tanf( fov_y * 0.5f );
+	float f= 1.0f / std::tan( fov_y * 0.5f );
 
 	value[0]= f / aspect;
 	value[5]= f;
