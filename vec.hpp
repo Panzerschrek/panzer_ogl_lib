@@ -5,6 +5,8 @@
 class m_Vec2
 {
 public:
+	static constexpr size_t size= 2;
+
 	float x, y;
 
 	m_Vec2(){}
@@ -48,6 +50,8 @@ float mVec2Cross( const m_Vec2& v1, const m_Vec2 v2 );
 class m_Vec3
 {
 public:
+	static constexpr size_t size= 3;
+
 	float x, y, z;
 
 	m_Vec3(){}
