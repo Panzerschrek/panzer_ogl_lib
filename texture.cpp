@@ -375,7 +375,9 @@ void r_Texture::SetWrapMode( WrapMode mode )
 	if( wrap_mode_ != mode )
 	{
 		wrap_mode_= mode;
-		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, WrapModeToGLWrapMode(wrap_mode_) );
+		GLenum gl_wrap_mode= WrapModeToGLWrapMode(wrap_mode_);
+		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, gl_wrap_mode );
+		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, gl_wrap_mode );
 	}
 }
 
