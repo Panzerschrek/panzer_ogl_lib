@@ -12,7 +12,7 @@ public:
 	// Use this, if has no difference, what to use.
 	static const float default_clear_color[4];
 	static constexpr const float default_clear_depth= 1.0f;
-	static constexpr const GLenum default_cull_face_mode= GL_FRONT;
+	static constexpr const GLenum default_cull_face_mode= GL_BACK;
 	static constexpr const bool default_depth_mask= true;
 
 	// State on OpenGL startup.
