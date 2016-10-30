@@ -24,7 +24,9 @@ public:
 	float Determinant() const;
 
 	float& operator[]( int i );
-	float  operator[]( int i )const;
+	float  operator[]( int i ) const;
+
+	void Translate( const m_Vec2& v );
 
 	void Scale( float s );
 	void Scale( const m_Vec3& v );
@@ -37,10 +39,9 @@ public:
 	0   1   2
 	3   4   5
 	6   7   8
-	9  10  11
 	*/
 
-	float value[12];
+	float value[9];
 };
 
 m_Vec3 operator*( const m_Vec3& v, const m_Mat3& m );

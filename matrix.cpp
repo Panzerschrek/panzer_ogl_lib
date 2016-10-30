@@ -134,6 +134,13 @@ float m_Mat3::operator[]( int i )const
 	return value[i];
 }
 
+void m_Mat3::Translate( const m_Vec2& v )
+{
+	Identity();
+	value[6]= v.x;
+	value[7]= v.y;
+}
+
 void m_Mat3::Scale( float s )
 {
 	Identity();
@@ -184,7 +191,7 @@ void m_Mat3::RotateZ( float a )
 	value[1]= s;
 	value[4]= c;
 
-	value[8]= 0.0f;
+	value[8]= 1.0f;
 	value[2]= value[5]= value[6]= value[7]= 0.0f;
 }
 
