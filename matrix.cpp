@@ -146,7 +146,7 @@ void m_Mat3::Scale( float s )
 	Identity();
 	value[0]= s;
 	value[4]= s;
-	value[8]= s;
+	value[8]= 1.0f;
 }
 
 void m_Mat3::Scale( const m_Vec3& v )
