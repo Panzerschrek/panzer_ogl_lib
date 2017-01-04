@@ -45,6 +45,7 @@ public:
 };
 
 m_Vec3 operator*( const m_Vec3& v, const m_Mat3& m );
+m_Vec2 operator*( const m_Vec2& v, const m_Mat3& m );
 
 class m_Mat4
 {

@@ -204,6 +204,14 @@ m_Vec3 operator*( const m_Vec3& v, const m_Mat3& m )
 	return r;
 }
 
+m_Vec2 operator*( const m_Vec2& v, const m_Mat3& m )
+{
+	m_Vec2 r;
+	r.x= v.x * m.value[0] + v.y * m.value[3] + m.value[6];
+	r.y= v.x * m.value[1] + v.y * m.value[4] + m.value[7];
+	return r;
+}
+
 /*
 MAT4
 */
