@@ -5,6 +5,7 @@
 class r_Texture final
 {
 	friend class r_Framebuffer;
+	friend class r_BufferTexture;
 
 public:
 	enum class PixelFormat
