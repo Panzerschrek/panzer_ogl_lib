@@ -120,53 +120,62 @@ GLenum r_Texture::FormatToBaseFormat( PixelFormat format )
 		// 1 component
 		case PixelFormat::R8:
 		case PixelFormat::R8S:
-		case PixelFormat::R8UI:
-		case PixelFormat::R8I:
 
 		case PixelFormat::R16:
 		case PixelFormat::R16S:
-		case PixelFormat::R16UI:
-		case PixelFormat::R16I:
+
 		case PixelFormat::R16F:
 
-		case PixelFormat::R32UI:
-		case PixelFormat::R32I:
 		case PixelFormat::R32F:
 			return GL_RED;
+
+		case PixelFormat::R8UI:
+		case PixelFormat::R8I:
+		case PixelFormat::R16UI:
+		case PixelFormat::R16I:
+		case PixelFormat::R32UI:
+		case PixelFormat::R32I:
+			return GL_RED_INTEGER;
 
 		// 2 component
 		case PixelFormat::RG8:
 		case PixelFormat::RG8S:
-		case PixelFormat::RG8UI:
-		case PixelFormat::RG8I:
 
 		case PixelFormat::RG16:
 		case PixelFormat::RG16S:
-		case PixelFormat::RG16UI:
-		case PixelFormat::RG16I:
+
 		case PixelFormat::RG16F:
 
-		case PixelFormat::RG32UI:
-		case PixelFormat::RG32I:
 		case PixelFormat::RG32F:
 			return GL_RG;
+
+		case PixelFormat::RG8UI:
+		case PixelFormat::RG8I:
+		case PixelFormat::RG16UI:
+		case PixelFormat::RG16I:
+		case PixelFormat::RG32UI:
+		case PixelFormat::RG32I:
+			return GL_RG_INTEGER;
 
 		// 4 component
 		case PixelFormat::RGBA8:
 		case PixelFormat::RGBA8S:
-		case PixelFormat::RGBA8UI:
-		case PixelFormat::RGBA8I:
 
 		case PixelFormat::RGBA16:
 		case PixelFormat::RGBA16S:
-		case PixelFormat::RGBA16UI:
-		case PixelFormat::RGBA16I:
+
 		case PixelFormat::RGBA16F:
 
-		case PixelFormat::RGBA32UI:
-		case PixelFormat::RGBA32I:
 		case PixelFormat::RGBA32F:
 			return GL_RGBA;
+
+		case PixelFormat::RGBA8UI:
+		case PixelFormat::RGBA8I:
+		case PixelFormat::RGBA16UI:
+		case PixelFormat::RGBA16I:
+		case PixelFormat::RGBA32UI:
+		case PixelFormat::RGBA32I:
+			return GL_RGBA_INTEGER;
 
 		// depth
 		case PixelFormat::Depth16:
@@ -175,6 +184,110 @@ GLenum r_Texture::FormatToBaseFormat( PixelFormat format )
 			return GL_DEPTH_COMPONENT;
 		case PixelFormat::Depth24Stencil8:
 			return GL_DEPTH_STENCIL;
+	};
+
+	return 0;
+}
+
+GLenum r_Texture::FormatToDataType( PixelFormat format )
+{
+	switch(format)
+	{
+		case PixelFormat::Unknown: return 0;
+
+		// 1 component
+		case PixelFormat::R8:
+			return GL_UNSIGNED_BYTE;
+		case PixelFormat::R8S:
+			return GL_BYTE;
+		case PixelFormat::R8UI:
+			return GL_UNSIGNED_BYTE;
+		case PixelFormat::R8I:
+			return GL_BYTE;
+
+		case PixelFormat::R16:
+			return GL_UNSIGNED_SHORT;
+		case PixelFormat::R16S:
+			return GL_SHORT;
+		case PixelFormat::R16UI:
+			return GL_UNSIGNED_SHORT;
+		case PixelFormat::R16I:
+			return GL_SHORT;
+		case PixelFormat::R16F:
+			return GL_FLOAT;
+
+		case PixelFormat::R32UI:
+			return GL_UNSIGNED_INT;
+		case PixelFormat::R32I:
+			return GL_INT;
+		case PixelFormat::R32F:
+			return GL_FLOAT;
+
+		// 2 component
+		case PixelFormat::RG8:
+			return GL_UNSIGNED_BYTE;
+		case PixelFormat::RG8S:
+			return GL_BYTE;
+		case PixelFormat::RG8UI:
+			return GL_UNSIGNED_BYTE;
+		case PixelFormat::RG8I:
+			return GL_BYTE;
+
+		case PixelFormat::RG16:
+			return GL_UNSIGNED_SHORT;
+		case PixelFormat::RG16S:
+			return GL_SHORT;
+		case PixelFormat::RG16UI:
+			return GL_UNSIGNED_SHORT;
+		case PixelFormat::RG16I:
+			return GL_SHORT;
+		case PixelFormat::RG16F:
+			return GL_FLOAT;
+
+		case PixelFormat::RG32UI:
+			return GL_UNSIGNED_INT;
+		case PixelFormat::RG32I:
+			return GL_INT;
+		case PixelFormat::RG32F:
+			return GL_FLOAT;
+
+		// 4 component
+		case PixelFormat::RGBA8:
+			return GL_UNSIGNED_BYTE;
+		case PixelFormat::RGBA8S:
+			return GL_BYTE;
+		case PixelFormat::RGBA8UI:
+			return GL_UNSIGNED_BYTE;
+		case PixelFormat::RGBA8I:
+			return GL_BYTE;
+
+		case PixelFormat::RGBA16:
+			return GL_UNSIGNED_SHORT;
+		case PixelFormat::RGBA16S:
+			return GL_SHORT;
+		case PixelFormat::RGBA16UI:
+			return GL_UNSIGNED_SHORT;
+		case PixelFormat::RGBA16I:
+			return GL_SHORT;
+		case PixelFormat::RGBA16F:
+			return GL_FLOAT;
+
+		case PixelFormat::RGBA32UI:
+			return GL_UNSIGNED_INT;
+		case PixelFormat::RGBA32I:
+			return GL_INT;
+		case PixelFormat::RGBA32F:
+			return GL_FLOAT;
+
+		// depth
+		case PixelFormat::Depth16:
+			return GL_UNSIGNED_SHORT;
+		case PixelFormat::Depth32:
+			return GL_UNSIGNED_INT;
+		case PixelFormat::Depth32F:
+			return GL_FLOAT;
+		case PixelFormat::Depth24Stencil8:
+			return GL_UNSIGNED_INT_24_8;
 	};
 
 	return 0;
@@ -335,39 +448,16 @@ r_Texture& r_Texture::operator=( r_Texture&& other )
 	return *this;
 }
 
-void r_Texture::SetData( decltype(nullptr) )
-{
-	SetData( (unsigned char*)nullptr );
-}
-
-void r_Texture::SetData( const float* data )
+void r_Texture::SetData( const void* data )
 {
 	GLenum gl_format= FormatToInternalFormat( format_ );
 	GLenum component_format= FormatToBaseFormat( format_ );
+	GLenum data_format= FormatToDataType( format_ );
 
 	glTexImage2D(
 		GL_TEXTURE_2D, 0, gl_format,
 		size_x_, size_y_, 0,
-		component_format, GL_FLOAT, data );
-}
-
-void r_Texture::SetData( const unsigned char* data )
-{
-	GLenum gl_format= FormatToInternalFormat( format_ );
-	GLenum component_format= FormatToBaseFormat( format_ );
-
-	GLenum data_type;
-	switch( format_ )
-	{
-		case PixelFormat::Depth24Stencil8:
-			data_type= GL_UNSIGNED_INT_24_8; break;
-		default:
-			data_type= GL_UNSIGNED_BYTE;
-	};
-	glTexImage2D(
-		GL_TEXTURE_2D, 0, gl_format,
-		size_x_, size_y_, 0,
-		component_format, data_type, data );
+		component_format, data_format, data );
 }
 
 void r_Texture::SetWrapMode( WrapMode mode )

@@ -72,9 +72,7 @@ public:
 	r_Texture& operator=( r_Texture&& other );
 
 	// Load texture data into GPU. Texture must be created and binded before.
-	void SetData( decltype(nullptr) );
-	void SetData( const float* data );
-	void SetData( const unsigned char* data );
+	void SetData( const void* data );
 
 	// Texture params modification methods. Texture must be created and binded before it.
 	void SetWrapMode( WrapMode mode );
@@ -95,6 +93,7 @@ public:
 private:
 	static GLenum FormatToInternalFormat( PixelFormat format );
 	static GLenum FormatToBaseFormat( PixelFormat format );
+	static GLenum FormatToDataType( PixelFormat format );
 	static GLenum FiltrationToGLFiltration( Filtration filtration );
 	static GLenum WrapModeToGLWrapMode( WrapMode mode );
 	static GLenum CompareModeToGLCompareFunc( CompareMode mode );
