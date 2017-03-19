@@ -19,6 +19,8 @@ public:
 	bool IsPointAheadPlane( const m_Vec3& point ) const;
 	bool IsPointBehindPlane( const m_Vec3& point ) const;
 
+	float GetSignedDistance(const m_Vec3& point ) const;
+
 	// TODO - add other useful methods - rotation, matrix transformations, etc.
 };
 
@@ -34,4 +36,9 @@ inline bool m_Plane3::IsPointAheadPlane( const m_Vec3& point ) const
 inline bool m_Plane3::IsPointBehindPlane( const m_Vec3& point ) const
 {
 	return point * normal + dist < 0.0f;
+}
+
+inline float m_Plane3::GetSignedDistance(const m_Vec3& point ) const
+{
+	return point * normal + dist;
 }
