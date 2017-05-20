@@ -79,3 +79,8 @@ void r_OGLStateManager::UpdateState( const r_OGLState& state )
 
 	state_= state;
 }
+
+void r_OGLStateManager::ResetState()
+{
+	state_= r_OGLState();
+}

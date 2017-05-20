@@ -44,6 +44,7 @@ class r_OGLStateManager final
 {
 public:
 	static void UpdateState( const r_OGLState& state );
+	static void ResetState(); // Reset state to state at OpenGL startup.
 
 private:
 	static r_OGLState state_;
