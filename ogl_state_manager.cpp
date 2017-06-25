@@ -84,3 +84,8 @@ void r_OGLStateManager::ResetState()
 {
 	state_= r_OGLState();
 }
+
+const r_OGLState& r_OGLStateManager::GetCurrentState()
+{
+	return state_;
+}

@@ -78,5 +78,5 @@ PROCESS_OGL_FUNCTION( PFNGLDRAWELEMENTSINSTANCEDPROC, glDrawElementsInstanced );
 
 PROCESS_OGL_FUNCTION( PFNGLBLENDEQUATIONPROC, glBlendEquation );
 
-// Degun callback - nVidia feature
+// Debug callback - nVidia feature
 PROCESS_OGL_FUNCTION( PFNGLDEBUGMESSAGECALLBACKPROC, glDebugMessageCallback );

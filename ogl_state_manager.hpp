@@ -46,6 +46,8 @@ public:
 	static void UpdateState( const r_OGLState& state );
 	static void ResetState(); // Reset state to state at OpenGL startup.
 
+	static const r_OGLState& GetCurrentState();
+
 private:
 	static r_OGLState state_;
 };
