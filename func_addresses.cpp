@@ -1,5 +1,4 @@
 #include "panzer_ogl_lib.hpp"
-#include "func_declarations.hpp"
 
 #define PROCESS_OGL_FUNCTION( TYPE, NAME ) TYPE NAME= nullptr
 #include "functions_list.h"
