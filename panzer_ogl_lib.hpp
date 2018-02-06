@@ -1,5 +1,10 @@
 #pragma once
 
+#ifdef _MSC_VER
+#define NOMINMAX
+#include <windows.h>
+#endif // _MSC_VER
+
 #include <GL/gl.h>
 
 // Catch system gl.h OpenGL version.
