@@ -14,7 +14,9 @@ r_PolygonBuffer::r_PolygonBuffer()
 {
 }
 
-r_PolygonBuffer::r_PolygonBuffer( r_PolygonBuffer&& other )
+r_PolygonBuffer::r_PolygonBuffer( r_PolygonBuffer&& other ) noexcept
+	: v_buffer_(c_buffer_not_created), i_buffer_(c_buffer_not_created)
+	, v_array_object_(c_buffer_not_created)
 {
 	*this= std::move(other);
 }
@@ -31,7 +33,7 @@ r_PolygonBuffer::~r_PolygonBuffer()
 		glDeleteVertexArrays( 1, &v_array_object_ );
 }
 
-r_PolygonBuffer& r_PolygonBuffer::operator=( r_PolygonBuffer&& other )
+r_PolygonBuffer& r_PolygonBuffer::operator=( r_PolygonBuffer&& other ) noexcept
 {
 	if( v_buffer_!= c_buffer_not_created )
 		glDeleteBuffers( 1, &v_buffer_ );
@@ -171,4 +173,14 @@ void r_PolygonBuffer::VertexAttribPointerInt( int v_attrib, int components, GLen
 
 	glEnableVertexAttribArray( v_attrib );
 	glVertexAttribIPointer( v_attrib, components, type, vertex_size_, (void*) shift );
+}
+
+unsigned int r_PolygonBuffer::GetVertexDataSize() const
+{
+	return vertex_data_size_;
+}
+
+unsigned int r_PolygonBuffer::GetIndexDataSize() const
+{
+	return index_data_size_;
 }

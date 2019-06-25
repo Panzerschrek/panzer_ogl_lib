@@ -6,11 +6,11 @@ class r_PolygonBuffer
 public:
 	r_PolygonBuffer();
 	r_PolygonBuffer( const r_PolygonBuffer& )= delete;
-	r_PolygonBuffer( r_PolygonBuffer&& other );
+	r_PolygonBuffer( r_PolygonBuffer&& other ) noexcept;
 	~r_PolygonBuffer();
 
 	r_PolygonBuffer& operator=( const r_PolygonBuffer& )= delete;
-	r_PolygonBuffer& operator=( r_PolygonBuffer&& other );
+	r_PolygonBuffer& operator=( r_PolygonBuffer&& other ) noexcept;
 
 	void VertexData( const void* data, unsigned int d_size, unsigned int v_size );
 	void VertexSubData( const void* data, unsigned int d_size, unsigned int shift );
@@ -28,6 +28,9 @@ public:
 	{
 		primitive_type_= t;
 	}
+
+	unsigned int GetVertexDataSize() const;
+	unsigned int GetIndexDataSize() const;
 
 private:
 	unsigned int vertex_data_size_;
