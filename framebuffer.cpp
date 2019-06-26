@@ -76,7 +76,7 @@ r_Framebuffer::r_Framebuffer(
 		color_attachments[ i ]= GL_COLOR_ATTACHMENT0 + i;
 
 	}// for textures
-	glDrawBuffers( textures_.size(), color_attachments );
+	glDrawBuffers( static_cast<GLsizei>(textures_.size()), color_attachments );
 
 	if( depth_buffer_texture_format != r_Texture::PixelFormat::Unknown )
 	{

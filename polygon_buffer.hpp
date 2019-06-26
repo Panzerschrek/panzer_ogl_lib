@@ -12,13 +12,13 @@ public:
 	r_PolygonBuffer& operator=( const r_PolygonBuffer& )= delete;
 	r_PolygonBuffer& operator=( r_PolygonBuffer&& other ) noexcept;
 
-	void VertexData( const void* data, unsigned int d_size, unsigned int v_size );
-	void VertexSubData( const void* data, unsigned int d_size, unsigned int shift );
+	void VertexData( const void* data, size_t d_size, size_t v_size );
+	void VertexSubData( const void* data,size_t d_size, size_t shift );
 
-	void IndexData( const void* data, unsigned int size, GLenum d_type, GLenum p_type );
-	void IndexSubData( const void* data, unsigned int size, int shift );
-	void VertexAttribPointer( int v_attrib, int components, GLenum type, bool normalize, int shift );
-	void VertexAttribPointerInt( int v_attrib, int components, GLenum type, int stride );
+	void IndexData( const void* data, size_t size, GLenum d_type, GLenum p_type );
+	void IndexSubData( const void* data, size_t size, size_t shift );
+	void VertexAttribPointer( int v_attrib, int components, GLenum type, bool normalize, size_t shift );
+	void VertexAttribPointerInt( int v_attrib, int components, GLenum type, size_t stride );
 
 	void Bind() const;
 

@@ -33,12 +33,12 @@ static std::string LoadShaderFile( const std::string& file_name )
 	}
 
 	std::fseek( file, 0, SEEK_END );
-	unsigned int file_size= std::ftell( file );
+	size_t file_size= std::ftell( file );
 	std::fseek( file, 0, SEEK_SET );
 
 	result.resize( file_size );
 
-	unsigned int pos= 0;
+	size_t pos= 0;
 	do
 	{
 		pos+= std::fread( const_cast<char*>(result.data()) + pos, 1, file_size - pos, file );
@@ -72,7 +72,7 @@ static std::string LoadShader_r( const std::string& file_name )
 	result+= file_name;
 	result+= "\" */\n";
 
-	for( unsigned int i= 0; i < src_text.size(); )
+	for( size_t i= 0; i < src_text.size(); )
 	{
 		char c= src_text[i];
 

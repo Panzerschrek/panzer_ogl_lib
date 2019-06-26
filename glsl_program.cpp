@@ -59,7 +59,7 @@ void r_GLSLProgram::Create()
 		if( log_length > 1 )
 		{
 			std::vector<char> log( log_length );
-			glGetShaderInfoLog( handle, log.size(), &log_length, log.data() );
+			glGetShaderInfoLog( handle, static_cast<GLsizei>(log.size()), &log_length, log.data() );
 
 			if( build_log_out_callback_ )
 				build_log_out_callback_( log.data() );
@@ -89,7 +89,7 @@ void r_GLSLProgram::Create()
 	if( program_log_length > 1 )
 	{
 		std::vector<char> log( program_log_length );
-		glGetProgramInfoLog( prog_handle_, log.size(), &program_log_length, log.data() );
+		glGetProgramInfoLog( prog_handle_, static_cast<GLsizei>(log.size()), &program_log_length, log.data() );
 
 		if( build_log_out_callback_ )
 			build_log_out_callback_( log.data() );
@@ -266,7 +266,7 @@ void r_GLSLProgram::FindUniforms()
 
 		glGetActiveUniform(
 			prog_handle_, i,
-			buff.size(), &length,
+			static_cast<GLsizei>(buff.size()), &length,
 			&size, &type,
 			buff.data() );
 

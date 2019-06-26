@@ -71,7 +71,7 @@ r_PolygonBuffer& r_PolygonBuffer::operator=( r_PolygonBuffer&& other ) noexcept
 	return *this;
 }
 
-void r_PolygonBuffer::VertexData( const void* data, unsigned int d_size, unsigned int v_size )
+void r_PolygonBuffer::VertexData( const void* data, size_t d_size, size_t v_size )
 {
 	if( v_array_object_ == c_buffer_not_created )
 		glGenVertexArrays( 1, &v_array_object_ );
@@ -83,11 +83,11 @@ void r_PolygonBuffer::VertexData( const void* data, unsigned int d_size, unsigne
 	glBindBuffer( GL_ARRAY_BUFFER, v_buffer_ );
 	glBufferData( GL_ARRAY_BUFFER, d_size, data, GL_STATIC_DRAW );
 
-	vertex_data_size_= d_size;
-	vertex_size_= v_size;
+	vertex_data_size_= static_cast<unsigned int>(d_size);
+	vertex_size_= static_cast<unsigned int>(v_size);
 }
 
-void r_PolygonBuffer::VertexSubData( const void* data, unsigned int d_size, unsigned int shift )
+void r_PolygonBuffer::VertexSubData( const void* data, size_t d_size, size_t shift )
 {
 	if( v_buffer_ == c_buffer_not_created || v_array_object_ == c_buffer_not_created )
 		return;
@@ -97,7 +97,7 @@ void r_PolygonBuffer::VertexSubData( const void* data, unsigned int d_size, unsi
 	glBufferSubData( GL_ARRAY_BUFFER, shift, d_size, data );
 }
 
-void r_PolygonBuffer::IndexData( const void* data, unsigned int size, GLenum d_type, GLenum p_type )
+void r_PolygonBuffer::IndexData( const void* data, size_t size, GLenum d_type, GLenum p_type )
 {
 	if( v_array_object_ == c_buffer_not_created )
 		glGenVertexArrays( 1, &v_array_object_ );
@@ -109,12 +109,12 @@ void r_PolygonBuffer::IndexData( const void* data, unsigned int size, GLenum d_t
 	glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, i_buffer_ );
 	glBufferData( GL_ELEMENT_ARRAY_BUFFER, size, data, GL_STATIC_DRAW );
 
-	index_data_size_= size;
+	index_data_size_= static_cast<unsigned int>(size);
 	index_data_type_= d_type;
 	primitive_type_= p_type;
 }
 
-void r_PolygonBuffer::IndexSubData( const void* data, unsigned int size, int shift )
+void r_PolygonBuffer::IndexSubData( const void* data, size_t size, size_t shift )
 {
 	if( i_buffer_ == c_buffer_not_created || v_array_object_ == c_buffer_not_created  )
 		return;
@@ -151,7 +151,7 @@ void r_PolygonBuffer::Draw() const
 	}
 }
 
-void r_PolygonBuffer::VertexAttribPointer( int v_attrib, int components, GLenum type, bool normalize, int shift )
+void r_PolygonBuffer::VertexAttribPointer( int v_attrib, int components, GLenum type, bool normalize, size_t shift )
 {
 	if( v_array_object_ == c_buffer_not_created || v_buffer_ == c_buffer_not_created )
 		return;
@@ -163,7 +163,7 @@ void r_PolygonBuffer::VertexAttribPointer( int v_attrib, int components, GLenum 
 	glVertexAttribPointer( v_attrib, components, type, normalize, vertex_size_, (void*) shift );
 }
 
-void r_PolygonBuffer::VertexAttribPointerInt( int v_attrib, int components, GLenum type, int shift )
+void r_PolygonBuffer::VertexAttribPointerInt( int v_attrib, int components, GLenum type, size_t shift )
 {
 	if( v_array_object_ == c_buffer_not_created || v_buffer_ == c_buffer_not_created )
 		return;
