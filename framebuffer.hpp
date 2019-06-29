@@ -13,7 +13,7 @@ public:
 	static void SetScreenFramebufferSize( unsigned int width, unsigned int height );
 	static void BindScreenFramebuffer();
 
-	r_Framebuffer();
+	r_Framebuffer()= default;
 	r_Framebuffer( const r_Framebuffer& )= delete;
 	r_Framebuffer( r_Framebuffer&& other );
 	r_Framebuffer(
@@ -40,8 +40,8 @@ private:
 	void DeleteFramebufferObject();
 
 private:
-	GLuint framebuffer_id_;
-	unsigned int size_x_, size_y_;
+	GLuint framebuffer_id_= c_screen_framebuffer_id_;
+	unsigned int size_x_= 0, size_y_= 0;
 
 	std::vector<r_Texture> textures_;
 	r_Texture depth_texture_;

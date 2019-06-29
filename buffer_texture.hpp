@@ -8,7 +8,7 @@ class r_BufferTexture final
 public:
 	typedef r_Texture::PixelFormat PixelFormat;
 
-	r_BufferTexture();
+	r_BufferTexture()= default;
 	r_BufferTexture( const r_BufferTexture& )= delete;
 	r_BufferTexture( r_BufferTexture&& other );
 

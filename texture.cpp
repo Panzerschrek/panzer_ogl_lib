@@ -350,17 +350,6 @@ GLenum r_Texture::CompareModeToGLCompareFunc( CompareMode mode )
 	return 0;
 }
 
-r_Texture::r_Texture()
-	: tex_id_( c_texture_not_created_ )
-	, format_( PixelFormat::Unknown )
-	, wrap_mode_( WrapMode::Repeat )
-	, compare_mode_( CompareMode::None )
-	, filter_min_( Filtration::NearestMipmapLinear )
-	, filter_mag_( Filtration::Linear )
-	, size_x_(0), size_y_(0)
-{
-}
-
 r_Texture::r_Texture( r_Texture&& other )
 {
 	*this= std::move(other);

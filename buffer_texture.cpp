@@ -5,9 +5,6 @@
 
 const GLuint r_BufferTexture::c_texture_not_created_= std::numeric_limits<GLuint>::max();
 
-r_BufferTexture::r_BufferTexture()
-{}
-
 r_BufferTexture::r_BufferTexture( r_BufferTexture&& other )
 {
 	*this= std::move(other);

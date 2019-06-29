@@ -42,12 +42,6 @@ void r_Framebuffer::BindScreenFramebuffer()
 	current_framebuffer_height_= screen_framebuffer_height_;
 }
 
-r_Framebuffer::r_Framebuffer()
-	: framebuffer_id_(c_screen_framebuffer_id_)
-	, size_x_(0), size_y_(0)
-{
-}
-
 r_Framebuffer::r_Framebuffer( r_Framebuffer&& other )
 {
 	*this= std::move(other);

@@ -58,7 +58,7 @@ public:
 		Equal,
 	};
 
-	r_Texture();
+	r_Texture()= default;
 	r_Texture( const r_Texture& )= delete;
 	r_Texture( r_Texture&& other );
 	//create and bind texture
@@ -99,14 +99,14 @@ private:
 	static GLenum CompareModeToGLCompareFunc( CompareMode mode );
 
 private:
-	GLuint tex_id_;
+	GLuint tex_id_= c_texture_not_created_;
 
-	PixelFormat format_;
-	WrapMode wrap_mode_;
-	CompareMode compare_mode_;
-	Filtration filter_min_, filter_mag_;
+	PixelFormat format_= PixelFormat::Unknown;
+	WrapMode wrap_mode_= WrapMode::Repeat;
+	CompareMode compare_mode_= CompareMode::None;
+	Filtration filter_min_= Filtration::NearestMipmapLinear, filter_mag_= Filtration::Linear;
 
-	unsigned int size_x_, size_y_;
+	unsigned int size_x_= 0, size_y_= 0;
 
 	static const GLuint c_texture_not_created_;
 };
